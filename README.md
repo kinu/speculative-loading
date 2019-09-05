@@ -1,6 +1,4 @@
-# Cross-Origin Speculative Loading
-
-# Speculative Loading with New Privacy Goals
+# Privacy-Preserving Cross-Origin Speculative Loading
 
 **TL;DR:** Re-consider how cross-origin speculative loading (e.g. `prefetch`, `prerender` and `portal`) could work with the new privacy goals on the web.
 
@@ -53,7 +51,7 @@ Cross-origin pre* must not enable any additional user tracking across sites.  Us
   - **Mitigation**: Similar to other threats. Needs uncredentialed requests and separate network stack.
   - **Alternative mitigation**: Stop firing onerror/onload for speculative loading.
 
-## Proposed (or Plausible) Changes
+## Plausible Changes
 
 If we consider all the scenarios listed in the previous section are valid and need to be avoided, we think following requirements will need to be met:
 
