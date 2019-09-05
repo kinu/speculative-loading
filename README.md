@@ -2,7 +2,7 @@
 
 Kinuko Yasuda, Sep 2019, (c) Google
 
-(Note: This isn't a proposal that's thoroughly thought out or stamped with the Google Seal of Approval, but more about an wip privacy analysis done by a couple of people.)
+_(Note: This isn't a proposal that's thoroughly thought out or stamped with the Google Seal of Approval, but more about an wip privacy analysis done by a couple of people.)_
 
 **TL;DR:** Examine what threat model cross-origin speculative loading (e.g. `prefetch`, `prerender` and `portal`) could have and reconsider how it could work with the new privacy goals on the web.
 
@@ -27,9 +27,6 @@ Speculative loading can be used to speculatively fetch resources that are likely
 
 ### Speculative Loading and Double-Keyed Caching
 However, as was pointed out in several places (e.g. [resource-hints/issues/82](https://github.com/w3c/resource-hints/issues/82)) this model does not work very well with the recent privacy goals on the web, especially for cross-origin use cases. For example, major modern browsers like Safari, Chrome and FireFox has shipped or has started experimenting with [Double-Keyed caching](https://github.com/whatwg/fetch/issues/904), where subresources are cached in a separate HTTP cache partitions so that the user’s browsing history on the current site (of the top-level page) is not shared with other sites, or vice versa. This partitioning clearly breaks how cross-origin prefetch works today, and considering other similar privacy implications it looks any cross-origin speculative loading would need to be re-considered.
-
-### Motivation
-With the new privacy goals, we are afraid that cross-origin navigations will become slower in general, as less resources will be found with the partitioned cache. We also suspect that Double-keyed caching could inherently give more performance advantages to larger sites, implying that it might incentivise users keep being on the few large sites without navigating out. We consider that being able to navigate across multiple linked pages/sites is one of the biggest strengths of the web, and hence we would like to keep exploring how we can meet both goals: privacy and performance.
 
 ## Threat Model
 
