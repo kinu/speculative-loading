@@ -10,7 +10,7 @@
 
 ## Terminology
 
-- **Speculative loading** -- web platform features that are proposed and designed for speculatively fetching resources in order to accelerate next navigations.  Namely, pre* features that are defined in [resource-hints](https://w3c.github.io/resource-hints/) (`prefetch`, `prerender` etc) and emerging features like [Portals](https://github.com/WICG/portals) (where a page can be previewed before being navigated into).
+- **Speculative loading** -- web platform features that are proposed and designed for speculatively fetching resources in order to accelerate next navigations.  Namely, pre* features that are defined in [resource-hints](https://w3c.github.io/resource-hints/) (`prefetch`, `prerender` etc) and emerging features like [Portals](https://github.com/WICG/portals) (where a page can be previewed before being navigated into). This document often just use the term 'speculative loading' for cross-origin speculative loading.
 - **Referrer page** -- a source page that can initiate speculative loading by inserting a relevant HTML tag, e.g. `<prefetch>`, for the resource that is likely used by the next navigation.  Typically the page would have an anchor tag pointing to the same page for navigation.
 - **Target page** -- a target page that can be navigated from the referrer page.  Its resource might be speculatively fetched by a speculative loading before the user actually navigates to the page, and if that's the case the navigation can finish more quickly.
 
@@ -21,10 +21,10 @@
 ### Why Speculative Loading Exists
 Speculative loading can be used to speculatively fetch resources that are likely used for next navigations, therefore a site can potentially accelerate next navigations. For example, when a referrer page A.com thinks that the user likely visits B.com, it can insert an HTML tag for speculative loading, e.g. <prefetch>, right next to an anchor tag to the target page B.com. If everything works as expected, when the user clicks the link for B.com some of the critical resources are already (speculatively) fetched and therefore the navigation finishes quickly.
 
-### Cross-Origin Speculative Loading and Double-Keyed caching
+### Speculative Loading and Double-Keyed Caching
 However, as was pointed out in several places (e.g. [resource-hints/issues/82](https://github.com/w3c/resource-hints/issues/82)) this model does not work very well with the recent privacy goals on the web, especially for cross-origin use cases. For example, major modern browsers like Safari, Chrome and FireFox has shipped or has started experimenting with [Double-Keyed caching](https://github.com/whatwg/fetch/issues/904), where subresources are cached in a separate HTTP cache partitions so that the user’s browsing history on the current site (of the top-level page) is not shared with other sites, or vice versa. This partitioning clearly breaks how cross-origin prefetch works today, and considering other similar privacy implications it looks any cross-origin speculative loading would need to be re-considered.
 
-### Motivation: Why We Explore Both Privacy and Performance
+### Motivation
 With the new privacy goals, we are afraid that cross-origin navigations will become slower in general, as less resources will be found with the partitioned cache. We also suspect that Double-keyed caching could inherently give more performance advantages to larger sites, implying that it might incentivise users keep being on the few large sites without navigating out. We consider that being able to navigate across multiple linked pages/sites is one of the biggest strengths of the web, and hence we would like to keep exploring how we can meet both goals: privacy and performance.
 
 ## Threat Model
