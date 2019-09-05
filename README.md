@@ -81,4 +81,4 @@ One plausible way is to address this conflict is to add a response header that c
 ## Acknowledgements
 
 Thanks a lot for sharing a lot of insights on the threat model section:
-Jeffrey Yasskin, David Benjamin, Matt Menke, Josh Karlin, Dominic Farolino, Yoav Weiss, Brad Lassey, (some more)
+Jeffrey Yasskin, David Benjamin, Matt Menke, Josh Karlin, Dominic Farolino, Yoav Weiss, Brad Lassey, (probably more)
