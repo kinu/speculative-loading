@@ -1,4 +1,8 @@
-# Privacy-Preserving Cross-Origin Speculative Loading
+# [WIP] Cross-Origin Speculative Loading and Privacy Implications
+
+Kinuko Yasuda, Sep 2019, (c) Google
+
+(Note: This isn't a proposal that's stamped with the Google Seal of Approval, but more about the privacy analysis done by a handful of people)
 
 **TL;DR:** Re-consider how cross-origin speculative loading (e.g. `prefetch`, `prerender` and `portal`) could work with the new privacy goals on the web.
 
@@ -80,4 +84,4 @@ One plausible way is to address this conflict is to add a response header that c
 ## Acknowledgements
 
 Thanks a lot for sharing a lot of insights on the threat model section:
-Jeffrey Yasskin, David Benjamin, Ryan Sleevi, Matt Menke, Dominic Farolino, Yoav Weiss, Brad Lassey, (probably more)
+Jeffrey Yasskin, David Benjamin, Matt Menke, Josh Karlin, Dominic Farolino, Yoav Weiss, Brad Lassey, (some more)
