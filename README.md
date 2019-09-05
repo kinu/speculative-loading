@@ -4,7 +4,7 @@ Kinuko Yasuda, Sep 2019, (c) Google
 
 (Note: This isn't a proposal that's stamped with the Google Seal of Approval, but more about the privacy analysis done by a handful of people)
 
-**TL;DR:** Re-consider how cross-origin speculative loading (e.g. `prefetch`, `prerender` and `portal`) could work with the new privacy goals on the web.
+**TL;DR:** Examine what threat model cross-origin speculative loading (e.g. `prefetch`, `prerender` and `portal`) could have and reconsider how it could work with the new privacy goals on the web.
 
 - [Terminology](#terminology)
 - [Background](#background)
