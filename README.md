@@ -2,6 +2,12 @@
 
 **TL;DR:** Re-consider how cross-origin speculative loading (e.g. `prefetch`, `prerender` and `portal`) could work with the new privacy goals on the web.
 
+- [Terminology](#terminology)
+- [Background](#background)
+- [Threat Model](#threat-model)
+- [Plausible Changes](#plausible-changes)
+- [Acknowledgements](#acknowledgements)
+
 ## Terminology
 
 - **Speculative loading** -- web platform features that are proposed and designed for speculatively fetching resources in order to accelerate next navigations.  Namely, pre* features that are defined in [resource-hints](https://w3c.github.io/resource-hints/) (`prefetch`, `prerender` etc) and emerging features like [Portals](https://github.com/WICG/portals) (where a page can be previewed before being navigated into).
@@ -71,4 +77,4 @@ One plausible way is to address this conflict is to add a response header that c
 ## Acknowledgements
 
 Thanks a lot for sharing a lot of insights on the threat model section:
-Jeffrey Yasskin, David Benjamin, Ryan Sleevi, Matt Menke, Dominic Farolino, Yoav Weiss, (your name)
+Jeffrey Yasskin, David Benjamin, Ryan Sleevi, Matt Menke, Dominic Farolino, Yoav Weiss, (probably more)
