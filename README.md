@@ -15,6 +15,9 @@
 - **Target page** -- a target page that can be navigated from the referrer page.  Its resource might be speculatively fetched by a speculative loading before the user actually navigates to the page, and if that's the case the navigation can finish more quickly.
 
 ## Background
+
+(You can skip to the [threat model](#threat-model) section if you know the context well)
+
 ### Why Speculative Loading Exists
 Speculative loading can be used to speculatively fetch resources that are likely used for next navigations, therefore a site can potentially accelerate next navigations. For example, when a referrer page A.com thinks that the user likely visits B.com, it can insert an HTML tag for speculative loading, e.g. <prefetch>, right next to an anchor tag to the target page B.com. If everything works as expected, when the user clicks the link for B.com some of the critical resources are already (speculatively) fetched and therefore the navigation finishes quickly.
 
