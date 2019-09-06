@@ -30,11 +30,11 @@ However, as was pointed out in several places (e.g. [resource-hints/issues/82](h
 
 ## Threat Model
 
-Cross-origin pre* must not enable any additional user tracking across sites.  User tracking that can happen between the referrer and target page upon actual navigation is out-of-scope of this document.
+Cross-origin pre* must not enable any additional user tracking across sites.  User tracking that can happen between the referrer and target page upon actual navigation, such as via link decoration, are out-of-scope of this document, as they represent a broader cross-functional challenge that will need to be holistically addressed.
 
 ### Scenarios
 
-(**Note** we think the threat model discussed here should also be examined and agreed to make sure we want to avoid these on the web. Many of these are possible today without using `prefetch` with 3p cookies and other technologies, but they are also being discussed if they should be like that forever.)
+(**Note** the threat model discussed here should also be examined and agreed to make sure these should be avoided on the web. Many of these are possible today without using `prefetch` with 3p cookies and other technologies, but they are also being discussed if they should be like that forever.)
 
 - The referrer site can prefetch a set of subresources (e.g. target.com/1, target.com/3, target.com/4) for next navigation, and then when a user navigates to the target site, it can learn that the user has the tracker ID 0b11010 from the set of subresources that are loaded from the cache (i.e. via timing info).
   - **Mitigation**: Top-level navigation only
@@ -63,9 +63,9 @@ Cross-origin pre* must not enable any additional user tracking across sites.  Us
 
 ## Plausible Changes
 
-If we consider all the scenarios listed in the previous section are valid and need to be avoided, we think following requirements will need to be met:
+Considering all the scenarios listed in the previous section are valid and need to be avoided, following requirements would likely be needed:
 
-- **No referrer**
+- Requests must come with **no referrer**
 - Requests must be **uncredentialed**
 - Prefetched resources must be available **only to the immediate next top-level navigation**
 - Requests must **not share network connections and state** (e.g. https://github.com/whatwg/fetch/issues/917)
@@ -74,7 +74,7 @@ If we consider all the scenarios listed in the previous section are valid and ne
 
 ### Opt-in Mechanism for Uncredentialed Navigations
 
-Given that navigations are credentialed by default while we think uncredentialed requests will be needed for speculative loading, we’ll need a mechanism for a site to explicitly express that their document can be loaded in this way without credentials and yet to be used for a next navigation.  Otherwise a referrer site can force a victim page to be loaded without credentials to make the page appear as if broken.
+Navigations are credentialed by default, but the mitigation listed above requires uncredentialed requests, which implies that a mechanism for a site to explicitly allow uncredentialed navigation to their page might be needed.  Otherwise a referrer page can force a victim page to be loaded without credentials to make the page appear as if broken.
 
 One plausible way is to address this conflict is to add a response header that can tell the UA that the page can be safely prefetched and loaded without credentials, e.g. `Allow-Uncredentialed-Navigations`.
 
