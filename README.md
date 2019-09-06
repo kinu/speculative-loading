@@ -74,7 +74,7 @@ Considering all the scenarios listed in the previous section are valid and need 
 
 ### Opt-in Mechanism for Uncredentialed Navigations
 
-Navigations are credentialed by default, but the mitigation listed above requires uncredentialed requests, which implies that a mechanism for a site to explicitly allow uncredentialed navigation to their page might be needed.  Otherwise a referrer page can force a victim page to be loaded without credentials to make the page appear as if broken.
+Navigations are credentialed by default, but the mitigation listed above require uncredentialed requests, which implies that a mechanism for a site to explicitly allow uncredentialed navigation to their page might be needed.  Otherwise a referrer page can force a victim page to be loaded without credentials to make the page appear as if broken.
 
 One plausible way is to address this conflict is to add a response header that can tell the UA that the page can be safely prefetched and loaded without credentials, e.g. `Allow-Uncredentialed-Navigations`.
 
