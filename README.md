@@ -37,8 +37,8 @@ Cross-origin pre* must not enable any additional user tracking across sites.  Us
 (**Note** the threat model discussed here should also be examined and agreed to make sure these should be avoided on the web. Many of these are possible today without using `prefetch` with 3p cookies and other technologies, but they are also being discussed if they should be like that forever.)
 
 - The referrer site can prefetch a set of subresources (e.g. target.com/1, target.com/3, target.com/4) for next navigation, and then when a user navigates to the target site, it can learn that the user has the tracker ID 0b11010 from the set of subresources that are loaded from the cache (i.e. via timing info).
-  - **Mitigation**: Top-level navigation only
-  - **Alternate Mitigation**: Subresources that are to be loaded must be determined only by the target site (e.g. via a link header) but not by the referrer site
+  - **Mitigation**: Main resource for top-level navigation only
+  - **Alternate Mitigation**: (Also for top-level nvaigation only, and) subresources that are to be loaded must be determined only by the target site (e.g. via a link header) but not by the referrer site. It should be only two states (i.e. 1 bit): either all the pre-defined subresources are loaded or no (zero resources).
 
 - The referrer site can create prefetch with a URL like “https://target.com/?from=referrer&id=12345”, then the target site can learn that a particular user on target.com has the tracker ID 12345 on the referrer site
   - **Mitigation**: Only allow uncredentialed requests
