@@ -10,7 +10,7 @@ _(Note: This isn't a proposal that's thoroughly thought out or stamped with the 
 - [Background](#background)
 - [Threat Model](#threat-model)
 - [Plausible Changes](#plausible-changes)
-- [Acknowledgements](#acknowledgements)
+- [Acknowledgements on Threat Model](#acknowledgements)
 
 ## Terminology
 
@@ -69,7 +69,6 @@ Considering all the scenarios listed in the previous section are valid and need 
 - Requests must be **uncredentialed**
 - Prefetched resources must be available **only to the immediate next top-level navigation**
 - Requests must **not share network connections and state** (e.g. https://github.com/whatwg/fetch/issues/917)
-- (Depending on how uncredentialed requests are implemented, it might need additional mitigations like no onerror / no onload)
 
 (Here this also assumes the UA implements some form of [Double-keyed or partitioned HTTP cache](https://github.com/whatwg/fetch/issues/904))
 
@@ -79,7 +78,7 @@ Navigations are credentialed by default, but the mitigation listed above require
 
 #### Ephemeral Cookies
 
-One thought is to make prefetch requests only when the target site doesn't have any associated credentials/cookies stored in UA, so that the requests can be safely uncredentialed. If the response tries to set some cookies that need to be made in an ephemeral cookie store so that they can be committed and stored only when the user actually made the navigation to the same URL.  This needs to come with additional mitigations of no-onerror/no-onload so that the referrer site can't observe the results.
+One thought is to make prefetch requests only when the target site doesn't have any associated credentials/cookies stored in UA, so that the requests can be safely uncredentialed. If the response tries to set some cookies that need to be made in an ephemeral cookie store so that they can be committed and stored only when the user actually made the navigation to the same URL.
 
 #### Opt-in Mechanism
 
