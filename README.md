@@ -38,10 +38,10 @@ Cross-origin pre* must not enable any additional user tracking across sites.  Us
 
 - The referrer site can prefetch a set of subresources (e.g. target.com/1, target.com/3, target.com/4) for next navigation, and then when a user navigates to the target site, it can learn that the user has the tracker ID 0b11010 from the set of subresources that are loaded from the cache (i.e. via timing info).
   - **Mitigation**: Main resource for top-level navigation only
-  - **Alternate Mitigation**: (Also for top-level nvaigation only, and) subresources that are to be loaded must be determined only by the target site (e.g. via a link header) but not by the referrer site. It should be only two states (i.e. 1 bit): either all the pre-defined subresources are loaded or no (zero resources).
+  - **Alternate mitigation**: (Also for top-level nvaigation only, and) subresources that are to be loaded must be determined only by the target site (e.g. via a link header) but not by the referrer site. It should be only two states (i.e. 1 bit): either all the pre-defined subresources are loaded or no (zero resources).
 
 - The referrer site can create prefetch with a URL like “https://target.com/?from=referrer&id=12345”, then the target site can learn that a particular user on target.com has the tracker ID 12345 on the referrer site
-  - **Mitigation**: Only allow uncredentialed requests
+  - **Mitigation**: Only allow uncredentialed requests.
   - **Alternate mitigation that was considered**: Use the same code path as normal navigation so that prefetch inherits link decoration defense as it's added to normal navigation. For example, if normal navigation becomes credential-less when there are query parameters, that should carry over to prefetch. If normal navigation with query parameters deletes first-party cookies after a day, prefetch needs to arrange that the same flag is set in the event that it's "committed". Note that this is likely **insufficient** for user-did-not-click cases as the ID is shared without any user actions.
 
 - The referrer site can prefetch multiple prefetches like “https://target.com/?id=12345” and “https://target.com/”, and then when a user navigates to one of the prefetched URL the target site can learn that the user who just navigated to target.com has the tracker ID 12345 on the referrer site (from the shared socket pool / TLS stack knowledge).
@@ -69,16 +69,28 @@ Considering all the scenarios listed in the previous section are valid and need 
 - Requests must be **uncredentialed**
 - Prefetched resources must be available **only to the immediate next top-level navigation**
 - Requests must **not share network connections and state** (e.g. https://github.com/whatwg/fetch/issues/917)
+- (Depending on how uncredentialed requests are implemented, it might need additional mitigations like no onerror / no onload)
 
 (Here this also assumes the UA implements some form of [Double-keyed or partitioned HTTP cache](https://github.com/whatwg/fetch/issues/904))
 
-### Opt-in Mechanism for Uncredentialed Navigations
+### Thoughts on Uncredentialed Navigations
 
-Navigations are credentialed by default, but the mitigation listed above require uncredentialed requests, which implies that a mechanism for a site to explicitly allow uncredentialed navigation to their page might be needed.  Otherwise a referrer page can force a victim page to be loaded without credentials to make the page appear as if broken.
+Navigations are credentialed by default, but the mitigation listed above require uncredentialed requests, which implies that some mechanism to make this work without breaking correctness is desirable.
+
+#### Ephemeral Cookies
+
+One thought is to make prefetch requests only when the target site doesn't have any associated credentials/cookies stored in UA, so that the requests can be safely uncredentialed. If the response tries to set some cookies that need to be made in an ephemeral cookie store so that they can be committed and stored only when the user actually made the navigation to the same URL.  This needs to come with additional mitigations of no-onerror/no-onload so that the referrer site can't observe the results.
+
+#### Opt-in Mechanism
+
+This could be also solved if web has a mechanism for the target site to explicitly allow uncredentialed navigation to their page might be needed.  Otherwise a referrer page can force a victim page to be loaded without credentials to make the page appear as if broken.
 
 One plausible way is to address this conflict is to add a response header that can tell the UA that the page can be safely prefetched and loaded without credentials, e.g. `Allow-Uncredentialed-Navigations`.
 
-## Acknowledgements
+This can be used in addition to Ephemeral Cookies so that the responses can be used either when the site responded with the opt-in header or when the site didn't have any credential information stored in UA.
+
+
+## Acknowledgements for the Threat Model section
 
 Thanks a lot for sharing a lot of insights on the threat model section:
 Jeffrey Yasskin, David Benjamin, Matt Menke, Shivani Sharma, Josh Karlin, Dominic Farolino, Yoav Weiss, Brad Lassey, (probably more)
